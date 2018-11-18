@@ -13,3 +13,7 @@ puts "Joffrey Baratheon"
 puts "Norman Bates"
 puts "Jason Vorhees"
 puts "Michael Myers"
+
+print "Overall we have "
+print 15
+print " great students"
