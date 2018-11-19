@@ -71,6 +71,7 @@ def print_menu
     puts "1. Add students to evil register".center(75)
     puts "2. Show all the evil students".center(75)
     puts "3. Save the recent additions to file".center(75)
+    puts "4. Load the current student file to the program".center(75)
     puts "9. Exit the EvIl app".center(75)
 end 
 
@@ -80,8 +81,10 @@ def process(selection)
         input_students
       when "2"
        show_students
-       when "3"
-         save_student_info
+      when "3"
+        save_student_info
+      when "4"
+        open_student_lists
       when "9"
         exit 
       else
@@ -103,6 +106,15 @@ def save_student_info
     student_info = [student[:name], student[:age], student[:cohort]]
     csv_line = student_info.join(",")
     file.puts csv_line
+  end 
+  file.close
+end 
+
+def open_student_lists
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+    name, age, cohort = line.chomp.split(",")
+    @students << {name: name, age: age, cohort: cohort.to_sym}
   end 
   file.close
 end 
