@@ -1,23 +1,8 @@
+@students = []
 def interactive_menu
-  students = []
   loop do
-    puts "1. Add students to evil register".center(75)
-    puts "2. Show all the evil students".center(75)
-    puts "9. Exit the EvIl app".center(75)
-  
-    selection = gets.chomp
-    case selection 
-      when "1"
-        students = input_students
-      when "2"
-        print_header
-        print_names(students)
-        print_footer(students)
-      when "9"
-        exit 
-      else
-        puts "Incorrect input, please try again"
-    end
+    print_menu
+    process(gets.chomp)
   end 
 end 
 =begin
@@ -42,44 +27,69 @@ def print_header
   puts "--------------------------------".center(75)     
 end
 
-def print_names(names)
-    names.each_with_index do |student,index|
+def print_names
+    @students.each_with_index do |student,index|
       puts "[#{index + 1}]. #{student[:name]} (#{student[:age]}) (#{student[:cohort]} cohort)".center(75)
     end
 end
 
-def print_footer(students)
-  puts "Overall, we have #{students.count} great students".center(75)
+def print_footer
+  puts "Overall, we have #{@students.count} great students".center(75)
 end
 
 def input_students
     puts "Please enter the names of new students, hit return and enter the age, then hit return and enter the cohort".center(75)
-    puts "To finish press enter twice".center(75)
+    puts "To finish press enter thrice".center(75)
     
-    students = []
+    
     
     name = gets.chomp
     age = gets.chomp.to_i
     cohort = gets.chomp.to_sym
     while !name.empty? do
-        students << {name: name, cohort: cohort, age: age}
+        @students << {name: name, cohort: cohort, age: age}
         
-        if students.count == 1
-          puts "Now we have #{students.count} student".center(75)
+        if @students.count == 1
+          puts "Now we have #{@students.count} student".center(75)
           name = gets.chomp
           age = gets.chomp.to_i
           cohort = gets.chomp.to_sym
         else
-          puts "Now we have #{students.count} students".center(75)
+          puts "Now we have #{@students.count} students".center(75)
           name = gets.chomp
           age = gets.chomp.to_i
           cohort = gets.chomp.to_sym
         end 
     end 
-    students
+    
 end 
 
 #students = input_students
+
+def print_menu
+    puts "1. Add students to evil register".center(75)
+    puts "2. Show all the evil students".center(75)
+    puts "9. Exit the EvIl app".center(75)
+end 
+
+def process(selection)
+      case selection 
+      when "1"
+        input_students
+      when "2"
+       show_students
+      when "9"
+        exit 
+      else
+        puts "Incorrect input, please try again"
+      end
+end 
+
+def show_students
+  print_header
+  print_names
+  print_footer
+end 
 
 interactive_menu
 
