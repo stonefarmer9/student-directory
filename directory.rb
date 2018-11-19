@@ -1,4 +1,5 @@
 @students = []
+
 def interactive_menu
   loop do
     print_menu
@@ -69,6 +70,7 @@ end
 def print_menu
     puts "1. Add students to evil register".center(75)
     puts "2. Show all the evil students".center(75)
+    puts "3. Save the recent additions to file".center(75)
     puts "9. Exit the EvIl app".center(75)
 end 
 
@@ -78,6 +80,8 @@ def process(selection)
         input_students
       when "2"
        show_students
+       when "3"
+         save_student_info
       when "9"
         exit 
       else
@@ -91,6 +95,17 @@ def show_students
   print_footer
 end 
 
+def save_student_info
+  #open the file
+  file = File.open("students.csv", "w")
+  #now we need to iterate over our students convert them to a string to be comma separated
+  @students.each do |student|
+    student_info = [student[:name], student[:age], student[:cohort]]
+    csv_line = student_info.join(",")
+    file.puts csv_line
+  end 
+  file.close
+end 
 interactive_menu
 
 
