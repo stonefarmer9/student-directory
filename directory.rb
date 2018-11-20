@@ -3,7 +3,7 @@
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end 
 end 
 =begin
@@ -44,22 +44,22 @@ def input_students
     
     
     
-    name = gets.chomp
-    age = gets.chomp.to_i
-    cohort = gets.chomp.to_sym
+    name = STDIN.gets.chomp
+    age = STDIN.gets.chomp.to_i
+    cohort = STDIN.gets.chomp.to_sym
     while !name.empty? do
         @students << {name: name, cohort: cohort, age: age}
         
         if @students.count == 1
           puts "Now we have #{@students.count} student".center(75)
-          name = gets.chomp
-          age = gets.chomp.to_i
-          cohort = gets.chomp.to_sym
+          name = STDIN.gets.chomp
+          age = STDIN.gets.chomp.to_i
+          cohort = STDIN.gets.chomp.to_sym
         else
           puts "Now we have #{@students.count} students".center(75)
-          name = gets.chomp
-          age = gets.chomp.to_i
-          cohort = gets.chomp.to_sym
+          name = STDIN.gets.chomp
+          age = STDIN.gets.chomp.to_i
+          cohort = STDIN.gets.chomp.to_sym
         end 
     end 
     
@@ -110,14 +110,29 @@ def save_student_info
   file.close
 end 
 
-def open_student_lists
-  file = File.open("students.csv", "r")
+def open_student_lists(filename = "students.csv")
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name, age, cohort = line.chomp.split(",")
     @students << {name: name, age: age, cohort: cohort.to_sym}
   end 
   file.close
+end
+
+def try_to_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exists?(filename)
+    open_student_lists(filename)
+    puts "Loaded #{@students.count} from #{filename}".center(75)
+  else 
+    puts "Sorry #{filename} does not exist".center(75)
+    exit
+  end 
 end 
+
+try_to_load_students
+
 interactive_menu
 
 
