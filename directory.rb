@@ -38,6 +38,9 @@ def input_students
     age = STDIN.gets.chop.to_i
     cohort = STDIN.gets.chop.to_sym
     while !name.empty? do
+      if cohort.to_s == ""
+         cohort = "UNKNOWN"
+      end 
         @students << {name: name, cohort: cohort, age: age}
         
         if @students.count == 1
