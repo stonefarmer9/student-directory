@@ -15,8 +15,11 @@ end
 def print_names(array)
    
     array.each_with_index do |student, index|
+      if student[:name].to_s.length < 7
+       
       puts "[#{index + 1}]. #{student[:name]} (#{student[:age]}) (#{student[:cohort]} cohort)".center(75)
     end
+  end 
      
 end
 
