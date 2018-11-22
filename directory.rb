@@ -12,13 +12,18 @@ def print_header
   puts "--------------------------------".center(75)     
 end
 
-def print_names
-    @students.each_with_index do |student,index|
-      if student[:cohort][0] == "N"
+def print_names(array)
+    array.each_with_index do |student, index|
       puts "[#{index + 1}]. #{student[:name]} (#{student[:age]}) (#{student[:cohort]} cohort)".center(75)
-      end
-    end 
+    end
 end
+
+def group_by_cohort
+  puts "Which Cohort do you wish to view?(Jan, Nov or Dec?)"
+  cohort = STDIN.gets.chomp
+  @students.select { |student| student[:cohort].to_s == cohort}
+  
+end 
 
 def print_footer
   puts "Overall, we have #{@students.count} great students".center(75)
@@ -53,6 +58,7 @@ def print_menu
     puts "2. Show all the evil students".center(75)
     puts "3. Save the recent additions to file".center(75)
     puts "4. Load the current student file to the program".center(75)
+    puts "5. Load specific cohort list".center(75)
     puts "9. Exit the EvIl app".center(75)
 end 
 
@@ -63,13 +69,16 @@ def process(selection)
         input_students
       when "2"
         puts "Printing students".center(75)
-       show_students
+        show_students
       when "3"
         save_student_info
         puts "Student data saved".center(75)
       when "4"
         puts "Opening list".center(75)
         open_student_lists
+        when "5"
+          puts "Fetching students"
+          print_names(group_by_cohort)
       when "9"
         puts "Catch you later".center(75)
         exit 
@@ -80,7 +89,7 @@ end
 
 def show_students
   print_header
-  print_names
+  print_names(@students)
   print_footer
 end 
 
@@ -95,7 +104,7 @@ def save_student_info
   end 
   file.close
 end 
-
+#Below is a parser - A translator from  CSV format to hash (layman terms)
 def open_student_lists(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
@@ -120,7 +129,3 @@ end
 try_to_load_students
 
 interactive_menu
-
-
-
-
