@@ -13,9 +13,18 @@ def print_header
 end
 
 def print_names(array)
+  counter = 0
+  index =0
+  while counter <= array.count
+    puts "#{array[index]}"
+    counter +=1
+    index +=1
+  end 
+=begin    
     array.each_with_index do |student, index|
       puts "[#{index + 1}]. #{student[:name]} (#{student[:age]}) (#{student[:cohort]} cohort)".center(75)
     end
+=end     
 end
 
 def group_by_cohort
