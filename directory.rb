@@ -6,23 +6,7 @@ def interactive_menu
     process(STDIN.gets.chomp)
   end 
 end 
-=begin
-students = [
-  {name: "Dr. Hannibal Lector", cohort: :november, age: 49}, 
-  {name:  "Darth Vadar", cohort: :november, age: 35},
-  {name:  "Nurse Ratched", cohort: :november, age: 12},
-  {name:  "Michael Corleone", cohort: :november, age: 69},
-  {name:  "Alex Delarge", cohort: :november, age: 72},
-  {name:  "The Wicked witch of the south-west", cohort: :november, age: 152},
-  {name:  "Terminator", cohort: :november, age: 1},
-  {name:  "Freddy Krueger", cohort: :november, age: 45},
-  {name:  "Joker", cohort: :november, age: 36},
-  {name:  "Joffrey Baratheon", cohort:  :november, age: 2},
-  {name:  "Norman Bates", cohort: :november, age: 29},
-  {name: "Jason Vorhees", cohort: :november, age: 18},
-  {name:  "Michael Myers", cohort: :november, age: 562} 
-  ]
-=end   
+
 def print_header  
   puts "The students of villains academy".center(75)
   puts "--------------------------------".center(75)     
@@ -30,8 +14,10 @@ end
 
 def print_names
     @students.each_with_index do |student,index|
+      if student[:name][0] == "A"
       puts "[#{index + 1}]. #{student[:name]} (#{student[:age]}) (#{student[:cohort]} cohort)".center(75)
     end
+  end 
 end
 
 def print_footer
@@ -41,9 +27,6 @@ end
 def input_students
     puts "Please enter the names of new students, hit return and enter the age, then hit return and enter the cohort".center(75)
     puts "To finish press enter thrice".center(75)
-    
-    
-    
     name = STDIN.gets.chomp
     age = STDIN.gets.chomp.to_i
     cohort = STDIN.gets.chomp.to_sym
@@ -65,8 +48,6 @@ def input_students
     
 end 
 
-#students = input_students
-
 def print_menu
     puts "1. Add students to evil register".center(75)
     puts "2. Show all the evil students".center(75)
@@ -78,14 +59,19 @@ end
 def process(selection)
       case selection 
       when "1"
+        puts "Add students".center(75)
         input_students
       when "2"
+        puts "Printing students".center(75)
        show_students
       when "3"
         save_student_info
+        puts "Student data saved".center(75)
       when "4"
+        puts "Opening list".center(75)
         open_student_lists
       when "9"
+        puts "Catch you later".center(75)
         exit 
       else
         puts "Incorrect input, please try again"
