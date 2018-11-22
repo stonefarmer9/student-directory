@@ -3,7 +3,7 @@
 def interactive_menu
   loop do
     print_menu
-    process(STDIN.gets.chomp)
+    process(STDIN.gets.chop)
   end 
 end 
 
@@ -20,7 +20,7 @@ end
 
 def group_by_cohort
   puts "Which Cohort do you wish to view?(Jan, Nov or Dec?)"
-  cohort = STDIN.gets.chomp
+  cohort = STDIN.gets.chop
   @students.select { |student| student[:cohort].to_s == cohort}
   
 end 
@@ -32,22 +32,22 @@ end
 def input_students
     puts "Please enter the names of new students, hit return and enter the age, then hit return and enter the cohort".center(75)
     puts "To finish press enter thrice".center(75)
-    name = STDIN.gets.chomp
-    age = STDIN.gets.chomp.to_i
-    cohort = STDIN.gets.chomp.to_sym
+    name = STDIN.gets.chop
+    age = STDIN.gets.chop.to_i
+    cohort = STDIN.gets.chop.to_sym
     while !name.empty? do
         @students << {name: name, cohort: cohort, age: age}
         
         if @students.count == 1
           puts "Now we have #{@students.count} student".center(75)
-          name = STDIN.gets.chomp
-          age = STDIN.gets.chomp.to_i
-          cohort = STDIN.gets.chomp.to_sym
+          name = STDIN.gets.chop
+          age = STDIN.gets.chop.to_i
+          cohort = STDIN.gets.chop.to_sym
         else
           puts "Now we have #{@students.count} students".center(75)
-          name = STDIN.gets.chomp
-          age = STDIN.gets.chomp.to_i
-          cohort = STDIN.gets.chomp.to_sym
+          name = STDIN.gets.chop
+          age = STDIN.gets.chop.to_i
+          cohort = STDIN.gets.chop.to_sym
         end 
     end 
     
@@ -108,7 +108,7 @@ end
 def open_student_lists(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, age, cohort = line.chomp.split(",")
+    name, age, cohort = line.chop.split(",")
     @students << {name: name, age: age, cohort: cohort.to_sym}
   end 
   file.close
