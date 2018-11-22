@@ -14,10 +14,10 @@ end
 
 def print_names
     @students.each_with_index do |student,index|
-      if student[:name][0] == "A"
+      if student[:cohort][0] == "N"
       puts "[#{index + 1}]. #{student[:name]} (#{student[:age]}) (#{student[:cohort]} cohort)".center(75)
-    end
-  end 
+      end
+    end 
 end
 
 def print_footer
