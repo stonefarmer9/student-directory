@@ -75,7 +75,7 @@ end
 def process(selection)
       case selection 
       when "1"
-        puts "Add students".center(75)
+        puts "Adding students".center(75)
         input_students
       when "2"
         puts "Printing students".center(75)
