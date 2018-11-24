@@ -19,6 +19,11 @@ def print_names(array)
     end
 end
 
+def add_student_info(*names)
+    @students << {name: @name, age: @age, cohort: @cohort}
+end
+
+
 def group_by_cohort
   puts "Which Cohort do you wish to view?(Jan, Nov or Dec?)"
   cohort = STDIN.gets.chop
@@ -33,25 +38,26 @@ end
 def input_students
     puts "Please enter the names of new students, hit return and enter the age, then hit return and enter the cohort".center(75)
     puts "To finish press enter thrice".center(75)
-    name = STDIN.gets.chop
-    age = STDIN.gets.chop.to_i
-    cohort = STDIN.gets.chop.to_sym
+    @name = STDIN.gets.chop
+    @age = STDIN.gets.chop.to_i
+    @cohort = STDIN.gets.chop.to_sym
     while !name.empty? do
-      if cohort.to_s == ""
-         cohort = "UNKNOWN"
+      if @cohort.to_s == ""
+         @cohort = "UNKNOWN"
       end 
-        @students << {name: name, cohort: cohort, age: age}
+       add_student_info({name: @name, age: @age, cohort: @cohort})
+        
         
         if @students.count == 1
           puts "Now we have #{@students.count} student".center(75)
-          name = STDIN.gets.chop
-          age = STDIN.gets.chop.to_i
-          cohort = STDIN.gets.chop.to_sym
+          @name = STDIN.gets.chop
+          @age = STDIN.gets.chop.to_i
+          @cohort = STDIN.gets.chop.to_sym
         else
           puts "Now we have #{@students.count} students".center(75)
-          name = STDIN.gets.chop
-          age = STDIN.gets.chop.to_i
-          cohort = STDIN.gets.chop.to_sym
+          @name = STDIN.gets.chop
+          @age = STDIN.gets.chop.to_i
+          @cohort = STDIN.gets.chop.to_sym
         end 
     end 
     
@@ -109,12 +115,14 @@ def save_student_info
   file.close
 end 
 #Below is a parser - A translator from  CSV format to hash (layman terms)
+
 def open_student_lists(filename = "students.csv")
   file = File.open(filename, "r")
   file.readlines.each do |line|
-    name, age, cohort = line.chop.split(",")
-    @students << {name: name, age: age, cohort: cohort.to_sym}
+    @name, @age, @cohort = line.chop.split(",")
+    add_student_info({name: @name, age: @age, cohort: @cohort})
   end 
+  
   file.close
 end
 
@@ -133,3 +141,4 @@ end
 try_to_load_students
 
 interactive_menu
+
