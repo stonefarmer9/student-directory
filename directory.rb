@@ -25,10 +25,10 @@ def add_student_info(*names)
 end
 
 
-def group_by_cohort # when refactoring make this take arguments
+def group_by_cohort(array)
   puts "Which Cohort do you wish to view?(Jan, Nov or Dec?)"
   cohort = STDIN.gets.chop
-  @students.select { |student| student[:cohort].to_s == cohort}
+  array.select { |student| student[:cohort].to_s == cohort}
   
 end 
 
@@ -36,12 +36,20 @@ def print_footer
   puts "Overall, we have #{@students.count} great students".center(75)
 end
 
+def input
+  @name = STDIN.gets.chop
+  @age = STDIN.gets.chop.to_i
+  @cohort = STDIN.gets.chop.to_sym
+end 
+
 def input_students
     puts "Please enter the names of new students, hit return and enter the age, then hit return and enter the cohort".center(75)
     puts "To finish press enter thrice".center(75)
-    @name = STDIN.gets.chop
-    @age = STDIN.gets.chop.to_i
-    @cohort = STDIN.gets.chop.to_sym
+    
+    input 
+    #@name = STDIN.gets.chop
+    #@age = STDIN.gets.chop.to_i
+    #@cohort = STDIN.gets.chop.to_sym
     while !@name.empty? do
       if @cohort.to_s == ""
          @cohort = "UNKNOWN"
@@ -89,7 +97,7 @@ def process(selection)
         open_student_lists
         when "5"
           puts "Fetching students"
-          print_names(group_by_cohort)
+          print_names(group_by_cohort(@students))
       when "9"
         puts "Catch you later".center(75)
         exit 
@@ -113,8 +121,7 @@ def save_student_info
     student_info = [student[:name], student[:age], student[:cohort]]
     csv_line = student_info.join(",")
     @filename.puts csv_line
-  end 
-  #@filename.close
+  end
 end 
 #Below is a parser - A translator from  CSV format to hash (layman terms)
 
