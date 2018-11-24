@@ -104,26 +104,28 @@ def show_students
 end 
 
 def save_student_info
+  choose_filename 
   #open the file
-  file = File.open("students.csv", "w")
+  @filename = File.open(@filename, "w")
   #now we need to iterate over our students convert them to a string to be comma separated
   @students.each do |student|
     student_info = [student[:name], student[:age], student[:cohort]]
     csv_line = student_info.join(",")
-    file.puts csv_line
+    @filename.puts csv_line
   end 
-  file.close
+  @filename.close
 end 
 #Below is a parser - A translator from  CSV format to hash (layman terms)
 
-def open_student_lists(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
+def open_student_lists(*)
+  choose_filename
+  @filename = File.open(@filename, "r")
+  @filename.readlines.each do |line|
     @name, @age, @cohort = line.chop.split(",")
     add_student_info({name: @name, age: @age, cohort: @cohort})
   end 
   
-  file.close
+  @filename.close
 end
 
 def try_to_load_students
@@ -138,7 +140,18 @@ def try_to_load_students
     puts "Sorry #{filename} does not exist".center(75)
     exit
   end 
-end 
+end
+
+def choose_filename
+  puts "Which file would you like to use?"
+  puts "If left blank, default will be students.csv"
+  @filename = STDIN.gets.chomp
+  if @filename == ""
+    @filename = "students.csv"
+  else
+    @filename
+  end
+end
 
 try_to_load_students
 
