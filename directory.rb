@@ -128,7 +128,9 @@ end
 
 def try_to_load_students
   filename = ARGV.first
-  return if filename.nil?
+  if filename.nil?
+    filename = 'students.csv'
+  end 
   if File.exists?(filename)
     open_student_lists(filename)
     puts "Loaded #{@students.count} from #{filename}".center(75)
