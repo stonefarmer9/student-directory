@@ -1,3 +1,4 @@
+require "csv"
 @students = []
 
 def interactive_menu
@@ -24,7 +25,7 @@ def add_student_info(*names)
 end
 
 
-def group_by_cohort
+def group_by_cohort # when refactoring make this take arguments
   puts "Which Cohort do you wish to view?(Jan, Nov or Dec?)"
   cohort = STDIN.gets.chop
   @students.select { |student| student[:cohort].to_s == cohort}
@@ -41,7 +42,7 @@ def input_students
     @name = STDIN.gets.chop
     @age = STDIN.gets.chop.to_i
     @cohort = STDIN.gets.chop.to_sym
-    while !name.empty? do
+    while !@name.empty? do
       if @cohort.to_s == ""
          @cohort = "UNKNOWN"
       end 
@@ -106,26 +107,24 @@ end
 def save_student_info
   choose_filename 
   #open the file
-  @filename = File.open(@filename, "w")
+  @filename = open(@filename, "w")
   #now we need to iterate over our students convert them to a string to be comma separated
   @students.each do |student|
     student_info = [student[:name], student[:age], student[:cohort]]
     csv_line = student_info.join(",")
     @filename.puts csv_line
   end 
-  @filename.close
+  #@filename.close
 end 
 #Below is a parser - A translator from  CSV format to hash (layman terms)
 
 def open_student_lists(*)
   choose_filename
-  @filename = File.open(@filename, "r")
+  @filename = open(@filename)
   @filename.readlines.each do |line|
     @name, @age, @cohort = line.chop.split(",")
     add_student_info({name: @name, age: @age, cohort: @cohort})
-  end 
-  
-  @filename.close
+  end
 end
 
 def try_to_load_students
